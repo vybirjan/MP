@@ -12,14 +12,28 @@ Takovéto úpravy mohou zahrnovat například zpřístupnění nebo zakázání 
 vlastností produktu, omezení možností opakované instalace a kopírování případně
 časové omezení určité funkcionality.
 
+K licencování aplikací patří také ochrana proti modifikacím. Pokud chceme
+pomocí licenčního nástroje omezit funkčnost nebo možnost aplikaci volně
+distribuovat, je potřeba také zajistit, že omezení vynucené licenčním
+mechanismem nepůjde snadno deaktivovat nebo odstanit. V Javě je ochrana aplikací
+problematická – struktura .class souborů produkovaných javovským překladačem je
+dobře zdokumentovaná a snadno čitelná\cite{vmspec}. Tento problém se obvykle částečně
+řeší obfuskací výsledného kódu včetně názvů tříd a metod. Pokud je aplikace postavená
+na Eclipse RCP/OSGi platformě, jsou tyto problémy ještě závažnější. Protože
+názvy tříd se používají jako identifikátory, není je možné je snadno obfuskovat.
+Díky modulární struktuře OSGi je navíc možné ochanu distribuovanou jako plug-in
+snadno odstranit případně nahradit vlastní prázdnou implementací.
 	
 \section{Cíle práce}
 Cílem práce je prozkoumat dostupná řešení, která umožňjí přidat do aplikací
-podporu pro licencování, a navrhnou vlastní řešení splňující následující
-požadavky:
+podporu pro licencování. Dále také prozkoumat možnosti ochrany aplikací
+postavených na platformě OSGi a navrhnout a naimplementovat nástroj pro
+licencování, který bude splňovat následující podmínky:
 \begin{itemize}
   \item Implementace v jazyce Java
   \item Podpora pro aplikace napsané na platformě Eclipse RCP
   \item Funkčnost na operačních systémech Windows a Linux
   \item Snadná integrovatelnost do již existujících aplikací
+  \item Centrální správa licencí
+  \item Webové GUI pro snadnějš správu licencí
 \end{itemize}
