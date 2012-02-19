@@ -22,7 +22,7 @@ klíče, čímž je znemožňeno modifikovat licenční soubor.
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=16cm]{figures/license4j.PNG}
+\includegraphics[width=12cm]{figures/license4j.PNG}
 \caption{License4j UI pro tvorbu licencí}
 \label{fig:license4j-ui} 
 \end{center}
@@ -63,7 +63,7 @@ jejichž platnost se poté v aplikaci kontroluje pomocí digitálního podpisu.
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=16cm]{figures/jlicense.PNG}
+\includegraphics[width=12cm]{figures/jlicense.PNG}
 \caption{JLicense UI pro tvorbu licencí}
 \label{fig:jlicense-ui} 
 \end{center}
@@ -93,7 +93,7 @@ vygenerovaných licencí.
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=16cm]{figures/rampart.PNG}
+\includegraphics[width=12cm]{figures/rampart.PNG}
 \caption{Rampart UI pro tvorbu licencí}
 \label{fig:rampart-ui} 
 \end{center}
@@ -126,7 +126,7 @@ správu licencí.
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=16cm]{figures/protection4.PNG}
+\includegraphics[width=12cm]{figures/protection4.PNG}
 \caption{Protection developer control center}
 \label{fig:protection4-ui} 
 \end{center}
@@ -156,7 +156,36 @@ možné také dokoupit dodatečnou podporu.
 Jedná se o pokročilé řešení určené pro větší podniky s velkým množstvím
 vlastností. Nevýhodou může být vysoká pořizovací cena pro menší projekty.
 
-\section{LM-X}
+\section{LM-X License Manager}
+LM-X License Manager\cite{lm-x} je další z komerčních licenčních nástrojů
+orientovaný na velké společnosti. Produkt je distribuován v podobě SDK napsaného
+v C++, pro integraci s aplikacemi napsanými v Javě výrobce poskytuje obalovací
+třídy.
+
+\subsection*{Vlastnosti}
+Výrobce umožňuje stažení testovací verze s omezenou dobou platnosti zdarma po
+vyplnění kontaktního formuláře. Platnost testovací verze je možné prodloužit za
+poplatek \EUR{200} na 3 měsíce. Cena licence pro komerční použití závisí na
+obratu společnosti a počtu platforem. Nejlevnější licence pro společnost s
+obratem pod \EUR{1M} vyjde na \EUR{1500} za rok a \EUR{550} za každou další
+platformu.
+
+Vlastnosti produktu:
+
+\begin{itemize}
+  \item Integrace s aplikacemi pomocí výrobcem dodaného SDK
+  \item Možnost vystavovat licence vázané na hardware i plovoucí licence
+  \item Licenční server pro centrální správu licencí 
+\end{itemize}
+
+\subsection*{Zhodnocení}
+Opět se jedná o profesionální licenční řešení, takže jeho hlavní výhodou je
+velké množství funkcí a podpora od výrobce.
+
+Jako nevýhoda se kromě ceny může také jevit skutečnost, že dodávaná knihovna je
+napsaná v C++ a pro použití s aplikacemi napsanými v Javě je potřeba používat
+obalovací třídy. K aplikaci je tedy nutné přibalit i zkompilované knihovny pro
+každou podporovanou platformu.
 % License4J - http://www.license4j.com/
 % - v podstate jen podepsani licencnich udaju + GUI
 % - cena = $35
