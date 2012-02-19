@@ -6,9 +6,11 @@ je kladen na následující vlastnosti:
 
 \begin{itemize}
   \item Integrovatelnost s aplikacemi napsanými v jazyce Java
+  \item Podpora pro aplikace napsané na platformě Eclipse/OSGi
   \item Funkčnost v operačních systémech Linux a Windows
+  \item Možnost centrální správy licencí
+  \item Možnost vázat licenci na konkrétní hardware
   \item Cena řešení 
-  \item 
 \end{itemize}
 
 
@@ -186,6 +188,43 @@ Jako nevýhoda se kromě ceny může také jevit skutečnost, že dodávaná kni
 napsaná v C++ a pro použití s aplikacemi napsanými v Javě je potřeba používat
 obalovací třídy. K aplikaci je tedy nutné přibalit i zkompilované knihovny pro
 každou podporovanou platformu.
+
+\section{Vyhodnocení}
+Výsledky zkoumaných řešení jsou shrnuty v následující tabulce:
+
+\begin{table}\centering
+	\caption[Results]{Porovnání hodnocených produktů}\label{tab:research-results}
+	\begin{tabular}{|l|l|c|c|}\hline
+		Název			& Podporované platformy	& Podpora Eclispe/OSGi	& Cena
+		\tabularnewline \hline \hline 
+		License4j		& Java					& Ne					& \$35		
+		\tabularnewline \hline
+		JLicense		& Java					& Ne					& Zdarma, \$50 za zdrojov0 kódy
+		\tabularnewline \hline
+		Rampart			& Java					& Ne					& \$29
+		\tabularnewline \hline
+		Protection! 4	& Java					& Ne					& \$50
+		\tabularnewline \hline
+	\end{tabular}
+\end{table}
+
+Průzkum ukazuje, že dostupná řešení se dělí ve své podstatě na 2 kategorie:
+
+\begin{itemize}
+  \item Malé knihovny – poskytují pouze základní funkcionalitu v podobě
+  vytváření licencí pomocí dodaného nástroje a knihovnu pro ověřování platnosti
+  licence za běhu licencované aplikace. V případě, že nehledáme příliš
+  sofistikované řešení může být jejich použití vhodné, obzvláště pak s
+  přihlédnutím k ceně. Ta se pohybuje v rozmezí několika desítek dolarů.
+  \item Komerční řešení – produkty určené k použití v enterprise prostředí.
+  Vynikají především množstvím poskytované funkcionality – od vystavování trial
+  licencí, přes licence vázané na hardware až po serverová řešení pro distribuci
+  licencí. Tomu ovšem také odpovídá cena, která se pohybuje v řádu tísíců
+  dolarů, často s nutností připlácet za další vývojáře, platformy a také za
+  každoroční obnovení licence.
+\end{itemize}
+
+
 % License4J - http://www.license4j.com/
 % - v podstate jen podepsani licencnich udaju + GUI
 % - cena = $35
