@@ -1,0 +1,14 @@
+#TeXlipse project settings
+#Sun Feb 12 20:17:30 CET 2012
+markTmpDer=true
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=DP_Vybiral_Jan_2012.tex
+outputFile=DP_Vybiral_Jan_2012.pdf
+langSpell=
+markDer=true
+srcDir=

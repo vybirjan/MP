@@ -1,0 +1,64 @@
+% options:
+% thesis=B bachelor's thesis
+% thesis=M master's thesis
+% czech thesis in Czech language
+% english thesis in English language
+
+\documentclass[thesis=M,czech]{FITthesis}[2011/07/15]
+
+\usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
+
+\usepackage{graphicx} %graphics files inclusion
+% \usepackage{subfig} %subfigures
+% \usepackage{amsmath} %advanced maths
+% \usepackage{amssymb} %additional math symbols
+
+% list of acronyms
+\usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
+\iflanguage{czech}{\renewcommand*{\acronymname}{Seznam pou{\v z}it{\' y}ch zkratek}}{}
+\makeglossaries
+
+\newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
+\newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\department{Katedra softwarového inženýrství}
+\title{Implementace nástroje pro licencování aplikací v jazyce Java}
+\author{Jan Vybíral} %author's name without academic degrees
+\authorWithDegrees{Bc. Jan Vybíral} %author's name with academic degrees
+\supervisor{Ing. Jan Trávníček}
+\acknowledgements{I would like to thank my family and friends for support during writing this thesis.}
+\abstractCS{TODO}
+\abstractEN{TODO}
+\placeForDeclarationOfAuthenticity{Praha} %where you have signed the declaration
+\keywordsCS{Java, Licencování, Eclipse, OSGi}
+\keywordsEN{TODO}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Kapitola 1 - Úvod
+\include{chapters/01-introduction}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Kapitola 2 - Rešerše
+\include{chapters/02-research}
+
+
+\begin{conclusion}
+
+\end{conclusion}
+
+\bibliographystyle{iso690.bst}
+\bibliography{ref}
+
+\appendix
+
+\printglossaries
+
+
+
+\end{document}
