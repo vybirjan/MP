@@ -1,0 +1,54 @@
+\chapter{Analýza}
+
+V této kapitole je provedena analýza požadavků a je navržena architektura
+výsledné aplikace.
+
+\section{Požadavky}
+
+\subsection{Nefunkční požadavky}
+
+Výsledný navrhovaný nástroj musí splňovat následující podmínky
+
+\subsection{Implementace v jazyce Java}
+
+Vzhledem k tomu, že důvodem ke vzniku práce bylo dodání licencovacího mechanismu
+do existujících aplikací napsaných v jazyce Java, jedním z hlavních požadavků
+je celý navržený systém implementovat v Javě. Ačkoliv Java umožňuje využívat
+knihovny napsané například v C/C++ pomocí JNI\cite{jni} nebo JNA\cite{jna}, je
+použití nativních knihoven mnohem snadnější.
+
+
+\subsection{Podpora pro aplikace napsané na platformě Eclipse RCP}
+
+Důvodem tohoto požadavku je fakt, že existující aplikace jsou napsány právě na
+platformě Eclipse RCP\cite{eclipse-rcp}. Pro snadnější integraci by měla být
+klientská část navrhovaného systému distribuovaná v podobě pluginu.
+
+Důsledkem tohoto požadavku je kromě podoby výsledné distribuce klientské části
+také omezení týkající se knihoven třetích stran. Využívany by měli být především
+takové knihovny, které jsou obvykle obsaženy ve většině distribucí aplikací
+napsaných na platformě Eclipse RCP. Například v případě použití GUI by měla být
+použita knihovna SWT\cite{swt}.
+
+\subsection{Funkčnost na operačních systémech Windows a Linux}
+
+Tento požadavek opět souvisí s tím, že existující aplikace podporují právě tyto
+operační systémy. Navíc jsou systémy Windows a Linux nejsnáze dostupné pro
+testovací účely. 
+
+Ačkoliv je Java multiplatformní jazyk, možnosti týkající se zístkávání informací
+specifických pro konkrétní operační systém jsou značně omezené. Pokud chceme
+vázat licenci na konkrétní hardware, je zapotřebí mnohem těsnější vazby s
+operačním systémem, než jakou Java umožňuje. Z tohoto důvodu bude nutné část
+funkcionality přizpůsobit konkrétnímu operačnímu systému a tuto část
+implementovat pro všechny podporované platformy. Jako cílové byly zvoleny
+operační systémy Windows a Linux, mělo by ale být možné v případě potřeby snadno
+rozšířit podporu i pro další operační systémy.
+
+
+\subsection{Snadná integrovatelnost do již existujících aplikací}
+ 
+ 
+  
+% \item Centrální správa licencí
+ % \item Webové GUI pro snadnějš správu licencí
