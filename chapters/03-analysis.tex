@@ -3,13 +3,15 @@
 V této kapitole je provedena analýza požadavků a je navržena architektura
 výsledné aplikace.
 
+
+
 \section{Požadavky}
 
 \subsection{Nefunkční požadavky}
 
 Výsledný navrhovaný nástroj musí splňovat následující podmínky
 
-\subsection{Implementace v jazyce Java}
+\subsubsection*{Implementace v jazyce Java}
 
 Vzhledem k tomu, že důvodem ke vzniku práce bylo dodání licencovacího mechanismu
 do existujících aplikací napsaných v jazyce Java, jedním z hlavních požadavků
@@ -18,7 +20,7 @@ knihovny napsané například v C/C++ pomocí JNI\cite{jni} nebo JNA\cite{jna}, 
 použití nativních knihoven mnohem snadnější.
 
 
-\subsection{Podpora pro aplikace napsané na platformě Eclipse RCP}
+\subsubsection*{Podpora pro aplikace napsané na platformě Eclipse RCP}
 
 Důvodem tohoto požadavku je fakt, že existující aplikace jsou napsány právě na
 platformě Eclipse RCP\cite{eclipse-rcp}. Pro snadnější integraci by měla být
@@ -30,7 +32,7 @@ takové knihovny, které jsou obvykle obsaženy ve většině distribucí aplika
 napsaných na platformě Eclipse RCP. Například v případě použití GUI by měla být
 použita knihovna SWT\cite{swt}.
 
-\subsection{Funkčnost na operačních systémech Windows a Linux}
+\subsubsection*{Funkčnost na operačních systémech Windows a Linux}
 
 Tento požadavek opět souvisí s tím, že existující aplikace podporují právě tyto
 operační systémy. Navíc jsou systémy Windows a Linux nejsnáze dostupné pro
@@ -46,9 +48,67 @@ operační systémy Windows a Linux, mělo by ale být možné v případě pot�
 rozšířit podporu i pro další operační systémy.
 
 
-\subsection{Snadná integrovatelnost do již existujících aplikací}
+\subsubsection*{Snadná integrovatelnost do již existujících aplikací}
  
- 
+K rozhodnutí o přidání funkčnosti pro licencování do aplikace může dojít až v
+pozdější fázi vývoje, případně může být požadavek licencování přidat do již
+hotového produktu. Z tohoto důvodu by měla být integrace co nejjednodušší.
+Modulární architektura platformy Eclipse RCP toto v případě integrace do
+desktopové aplikace usnadní. Stejný požadavek ale můžemem mít také na serverové
+straně. Pokud již máme existující databázi uživatelů, mohli bychom ji chtít
+využít pro vystavení licencí.
   
-% \item Centrální správa licencí
- % \item Webové GUI pro snadnějš správu licencí
+\subsubsection*{Centrální správa licencí}
+
+Aby bylo možné mít přehled o všech vydaných licencích, je nutné licence
+spravovat centrálně.
+
+\subsubsection*{Webové GUI pro snadnějš správu licencí}
+
+Protože o vydávání licencí se běžně stará obchodní oddělení, je potřeba
+vytvořit grafické uživatelské rozhraní, které umožní uživatelům spravovat vydané
+licence. Z hlediska snadnosti použití a platformní nezávislosti se jako
+nejvhodnější jeví webové rozhraní.
+
+
+\subsection{Funkční požadavky}
+
+\subsubsection*{Vlastnosti licence}
+
+Zde jsou uvedeny vlastnosti, které bude mít vydaná licence.
+
+\begin{itemize}
+  \item Časové omezení – počátek nebo konec platnosti licence je možné časově
+  omezit
+  \item Vazba na hardware – platnost licence je možné vázat na konkrétní
+  hardware
+  \item Licencované vlastnosti - licence bude obsahovat seznam vlastností, které
+  jsou v licenci zahrnuty. To umožní aplikaci omezit funkcionalitu jen na
+  vlastnosti uvedené v licenci.
+\end{itemize}
+
+\subsubsection*{Vlastnosti klientské části}
+
+Tyto vlastnosti bude mít klientská část licenčního mechanismu, která se bude
+zabudovávat do aplikace.
+
+\begin{itemize}
+  \item Online kontrola platnosti – platnost licence bude možné ověřit proti
+  licenčnímu serveru.
+  \item Offlice kontrola platnosti – platnost údajů uvedených v licenci bude
+  možné ověřit bez nutnosti připojení k centrálnímu serveru. Jedná se především
+  o kontrolu dat počátku a konce platnosti a kontroly vazby na hardware.
+\end{itemize}
+
+\subsubsection*{Vlastnosti serverové části}
+
+\begin{itemize}
+  \item Zobrazení přehledu vystavených licencí
+  \item Vytvoření nové licence
+  \item Zneplatnění licence
+  \item Ověření platnosti licence
+\end{itemize}
+
+\section{Architektura}
+
+Jako 
