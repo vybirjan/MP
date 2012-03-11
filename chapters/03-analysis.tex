@@ -75,16 +75,16 @@ nejvhodnější jeví webové rozhraní.
 
 \subsubsection*{Vlastnosti licence}
 
-Zde jsou uvedeny vlastnosti, které bude mít vydaná licence.
+Licence vydávané a ověřované implementovaným licenčním nástrojem musí mít
+následující vlastnosti.
 
 \begin{itemize}
   \item Časové omezení – počátek nebo konec platnosti licence je možné časově
   omezit
   \item Vazba na hardware – platnost licence je možné vázat na konkrétní
   hardware
-  \item Licencované vlastnosti - licence bude obsahovat seznam vlastností, které
-  jsou v licenci zahrnuty. To umožní aplikaci omezit funkcionalitu jen na
-  vlastnosti uvedené v licenci.
+  \item Licencované vlastnosti - do vystavené licence je možné zanást
+  informace o povolených vlastnostech licencovaného produktu.
 \end{itemize}
 
 \subsubsection*{Vlastnosti klientské části}
@@ -93,9 +93,9 @@ Tyto vlastnosti bude mít klientská část licenčního mechanismu, která se b
 zabudovávat do aplikace.
 
 \begin{itemize}
-  \item Online kontrola platnosti – platnost licence bude možné ověřit proti
+  \item Online kontrola platnosti – platnost licence bude je ověřit proti
   licenčnímu serveru.
-  \item Offlice kontrola platnosti – platnost údajů uvedených v licenci bude
+  \item Offline kontrola platnosti – platnost údajů uvedených v licenci je
   možné ověřit bez nutnosti připojení k centrálnímu serveru. Jedná se především
   o kontrolu dat počátku a konce platnosti a kontroly vazby na hardware.
 \end{itemize}
@@ -106,9 +106,66 @@ zabudovávat do aplikace.
   \item Zobrazení přehledu vystavených licencí
   \item Vytvoření nové licence
   \item Zneplatnění licence
-  \item Ověření platnosti licence
+  \item Ověření platnosti vydané licence
 \end{itemize}
 
 \section{Architektura}
 
-Jako 
+Jako nejvhodnější architektura pro navrhovaný produkt je typ klient-server.
+Rozvržení jednotlivých komponent je zobrazeno v diagramu na obrázku
+\ref{fig:deployment}.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=12cm]{figures/deployment.png}
+\caption{Diagram nasazení jednotlivých komponent}
+\label{fig:deployment} 
+\end{center}
+\end{figure}
+
+\subsection{Serverová část}
+
+Účelem serverové části je poskytovat informace o vydaných licencích a ověřovat
+jejich platnost. Serverová část může být integrována do existující serverové
+aplikace, nebo nasazena jako samostatná aplikace. Komponenty serverové aplikace
+jsou na obrázku \ref{fig:components-server}.
+
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=12cm]{figures/components-server.png}
+\caption{Diagram komponent serverové části}
+\label{fig:components-server} 
+\end{center}
+\end{figure}
+
+Pro zajištění rozšiřitelnosti, snadné integrace do existujících aplikací a dobré
+testovatelnosti je část funkcionality serverové části rozdělena do několika
+komponent s definovaným rozhraním.
+
+\subsubsection*{License Server}
+
+Hlavní část serverové aplikace obsahující logiku spojenou s ověřováním
+licencí. Jejím úkolem je odpovídat na požadavky od klientských aplikací na
+ověření platnosti licence uložené v databázi. Jendotlivé části zajišťující
+komunikaci s klienty a databází jsou dekomponovány do samostatných částí a
+komunikace s nimi probíhá pomocí pevně daného rozhraní. To umožňuje udržet
+komponentu nezávislou na použitém komunikačním protokolu a databázové vrstvě.
+
+\subsubsection*{Communication Service}
+
+Communication Service je komponenta odpovědná za komunikaci s klientskými
+aplikacemi. Jejím vyčleněním do samostatné části je dosaženo odstranění
+závislosti na použitém protokolu pro komunikaci s klientskými aplikacemi.
+Komponenta Communication Service překládá požadavky na ověření platnosti licence
+z podoby specifické pro použitý komunikační protokol (XML, JSON, Serialozované
+objekty, \ldots) do univerzální podoby akceptované částí License Server.
+
+V implementační části bude tato komponenta naimplementována v podobě
+RESTful\cite{rest} webové služby.
+
+\subsubsection*{Data Source}
+
+Komponenta Data Source slouží k načítání a ukládání informací o vydaných
+licencích do persistentního úložiště. Poskytuje serverové aplikaci základní operace jako
+nalezení licence podle identifikátoru a zaznamenání aktivace licence.  
