@@ -174,4 +174,61 @@ použita pro napojení na existující datový model. V případě samostatného
 může být komponenta naimplementována jako Data Access Object.
 
 V implementační části bude tato komponenta naimplementována pro
-použití s JPA\cite{rest} persistentí vrstvou.
+použití s JPA persistentí vrstvou.
+
+\subsubsection*{License Event Consumer}
+
+Poslední z navržených komponent je komponenta s názvem License Event Consumer. 
+Účelem této komponenty je umožnit snadnější rozšíření serverové aplikace o
+dodatečnou funkcionalitu. Jendá se o aplikaci návrhového vzoru observer –
+komponenta License Server umožní registrovat komponenty implementující rozhraní
+License Event Consumer. Registrované komponenty budou notifikovány o událostech
+v serverové aplikaci, například při povolení nebo zamítnutí ověření licence.
+Tímto způsobbem je možné doplnit aplikaci o další funkcionalitu, například
+logování událostí nebo zasílání notifikací pomocí emailu.
+
+
+\subsection{Klientská část}
+
+Klientoskou částí se rozumí část vyvíjeného nástroje, která se zabuduje do
+licencované aplikace. Účelem této části je poskytnout licencované aplikaci
+programové rozhraní pro vyžádání a ověření licence. Rozdělení klientské části na
+jednotlivé komponenty je zobrazena na obrázku \ref{fig:components-client}.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=12cm]{figures/components-client.png}
+\caption{Diagram komponent klientské části}
+\label{fig:components-client} 
+\end{center}
+\end{figure}
+
+Klientská část je podobně jako serverová část rozdělená do na jendotlivé
+komponenty. Jedná se ale především o logické dělení – při integraci do cílové
+aplikace mohou být jednotlivé komponenty mnohem těsněji provázány za účelem
+znesnadnění odstranění jednotlivých částí.
+
+\subsubsection*{Client Application}
+
+Client Application je hlavní komponenta klientské aplikace obsahující všechnu
+potřebnou logiku. Účelem této komponenty je poskytovat aplikaci informace o
+aktuální licenci a případně umožnit aplikaci si vyžádat aktivaci nové licence.
+%TODO
+
+\subsubsection*{License Service Client}
+
+Komponenta License Service Client slouží ke komunikaci se serverovou aplikací.
+Jedná se o protějšek serverové komponenty Communication Service. Vyčleněním
+komunikace se serverem do samostatné komponenty získáme možnost změny
+komunikačního protokolu bez nutnosti zásahu do ostatních částí klientské
+aplikace.
+
+\subsubsection*{Hardware Fingerprint Provider}
+
+Účelem komponenty Hardware Fingerprint Provider je poskytnout klientské části
+přístup k informacím o hardware počítače, na kterém je licencovaná aplikace
+nainstalována. Informace o hardware počítače jsou použity pro vytvoření
+unikátního otisku hardware. Protože že vyvýjený licencovací nástroj
+musí být funkční na operačních systémech Windows a Linux, je nutné tuto
+funkcionalitu vyčelnit do samostatné komponenty. 
+
