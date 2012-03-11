@@ -145,8 +145,8 @@ komponent s definovaným rozhraním.
 
 \subsubsection*{License Server}
 
-Hlavní část serverové aplikace obsahující logiku spojenou s ověřováním
-licencí. Jejím úkolem je odpovídat na požadavky od klientských aplikací na
+License Server je hlavní část serverové aplikace obsahující logiku spojenou s
+ověřováním licencí. Jejím úkolem je odpovídat na požadavky od klientských aplikací na
 ověření platnosti licence uložené v databázi. Jendotlivé části zajišťující
 komunikaci s klienty a databází jsou dekomponovány do samostatných částí a
 komunikace s nimi probíhá pomocí pevně daného rozhraní. To umožňuje udržet
@@ -168,4 +168,10 @@ RESTful\cite{rest} webové služby.
 
 Komponenta Data Source slouží k načítání a ukládání informací o vydaných
 licencích do persistentního úložiště. Poskytuje serverové aplikaci základní operace jako
-nalezení licence podle identifikátoru a zaznamenání aktivace licence.  
+nalezení licence podle identifikátoru a zaznamenání aktivace licence. Při
+integraci serverové části do již existující aplikace je komponenta Data Source
+použita pro napojení na existující datový model. V případě samostatného nasazení
+může být komponenta naimplementována jako Data Access Object.
+
+V implementační části bude tato komponenta naimplementována pro
+použití s JPA\cite{rest} persistentí vrstvou.
