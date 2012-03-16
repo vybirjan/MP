@@ -83,7 +83,7 @@ následující vlastnosti.
   omezit
   \item Vazba na hardware – platnost licence je možné vázat na konkrétní
   hardware
-  \item Licencované vlastnosti - do vystavené licence je možné zanást
+  \item Licencované vlastnosti - do vystavené licence je možné zanést
   informace o povolených vlastnostech licencovaného produktu.
 \end{itemize}
 
@@ -115,9 +115,9 @@ Jako nejvhodnější architektura pro navrhovaný produkt je typ klient-server.
 Rozvržení jednotlivých komponent je zobrazeno v diagramu na obrázku
 \ref{fig:deployment}.
 
-\begin{figure}[H]
+\begin{figure}[tbh]
 \begin{center}
-\includegraphics[width=12cm]{figures/deployment.png}
+\includegraphics[width=11cm]{figures/deployment.png}
 \caption{Diagram nasazení jednotlivých komponent}
 \label{fig:deployment} 
 \end{center}
@@ -131,9 +131,9 @@ aplikace, nebo nasazena jako samostatná aplikace. Komponenty serverové aplikac
 jsou na obrázku \ref{fig:components-server}.
 
 
-\begin{figure}[H]
+\begin{figure}[tbh]
 \begin{center}
-\includegraphics[width=12cm]{figures/components-server.png}
+\includegraphics[width=11cm]{figures/components-server.png}
 \caption{Diagram komponent serverové části}
 \label{fig:components-server} 
 \end{center}
@@ -158,11 +158,8 @@ Communication Service je komponenta odpovědná za komunikaci s klientskými
 aplikacemi. Jejím vyčleněním do samostatné části je dosaženo odstranění
 závislosti na použitém protokolu pro komunikaci s klientskými aplikacemi.
 Komponenta Communication Service překládá požadavky na ověření platnosti licence
-z podoby specifické pro použitý komunikační protokol (XML, JSON, Serialozované
-objekty, \ldots) do univerzální podoby akceptované částí License Server.
-
-V implementační části bude tato komponenta naimplementována v podobě
-RESTful\cite{rest} webové služby.
+z podoby specifické pro použitý komunikační protokol (\gls{XML}, \gls{JSON},
+Serialozované objekty, \ldots) do univerzální podoby akceptované částí License Server.
 
 \subsubsection*{Data Source}
 
@@ -171,10 +168,7 @@ licencích do persistentního úložiště. Poskytuje serverové aplikaci zákla
 nalezení licence podle identifikátoru a zaznamenání aktivace licence. Při
 integraci serverové části do již existující aplikace je komponenta Data Source
 použita pro napojení na existující datový model. V případě samostatného nasazení
-může být komponenta naimplementována jako Data Access Object.
-
-V implementační části bude tato komponenta naimplementována pro
-použití s JPA persistentí vrstvou.
+může být komponenta naimplementována jako \gls{DAO}.
 
 \subsubsection*{License Event Consumer}
 
@@ -195,9 +189,9 @@ licencované aplikace. Účelem této části je poskytnout licencované aplikac
 programové rozhraní pro vyžádání a ověření licence. Rozdělení klientské části na
 jednotlivé komponenty je zobrazena na obrázku \ref{fig:components-client}.
 
-\begin{figure}[H]
+\begin{figure}[tbh]
 \begin{center}
-\includegraphics[width=12cm]{figures/components-client.png}
+\includegraphics[width=11cm]{figures/components-client.png}
 \caption{Diagram komponent klientské části}
 \label{fig:components-client} 
 \end{center}
@@ -231,4 +225,21 @@ nainstalována. Informace o hardware počítače jsou použity pro vytvoření
 unikátního otisku hardware. Protože že vyvýjený licencovací nástroj
 musí být funkční na operačních systémech Windows a Linux, je nutné tuto
 funkcionalitu vyčelnit do samostatné komponenty. 
+
+\subsubsection*{Secure Storage}
+
+Jedním z požadavků na klientskou část je možnost ověřit platnost licence bez
+aktivního připojení na internet. Z toho důvodu je nutné mít informace o
+aktivované licenci uložené, aby je bylo možné při opětovném spuštění aplikace
+načíst a ověřit. Za tímto účelem je navržena komponenta Secure Storage. Cílem
+této komponenty je poskytnout klientské aplikaci persistentní úložiště pro
+informace o licenci. Persistentní podoba uložené licence musí být chráněna proti
+modifikaci z venčí.
+
+\subsubsection*{License Service}
+ 
+Rozhraní License Service je jediná část licencovacího nástroje viditelná z
+klientské aplikace. Umožňuje klientské aplikaci provést ověření aktuální licence
+a v případě potřeby vyžádání nové licence.
+
 

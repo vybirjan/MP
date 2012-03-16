@@ -3,7 +3,8 @@
 \section{Motivace}
 
 Důvodem vzniku této práce byla potřeba přidat do existujích aplikací napsaných
-v jazyce Java na platformě Eclipse RCP podporu pro licencování.
+v jazyce Java na platformě \glslink{gls-eclipse-rcp}{Eclipse RCP} podporu pro
+licencování.
 
 Výrazem licence se v kontextu vývoje software myslí oprávnění, kterým autor
 software umožňuje jeho použití dalším osobám. Při komerční distribuci software
@@ -19,15 +20,15 @@ mechanismem nepůjde snadno deaktivovat nebo odstanit. V Javě je ochrana aplika
 problematická – struktura .class souborů produkovaných javovským překladačem je
 dobře zdokumentovaná a snadno čitelná\cite{vmspec}. Tento problém se obvykle částečně
 řeší obfuskací výsledného kódu včetně názvů tříd a metod. Pokud je aplikace postavená
-na Eclipse RCP/OSGi platformě, jsou tyto problémy ještě závažnější. Protože
-názvy tříd se používají jako identifikátory, není je možné je snadno obfuskovat.
+na \glslink{gls-eclipse-rcp}{Eclipse RCP}/\gls{OSGi} platformě, jsou tyto
+problémy ještě závažnější. Protože názvy tříd se používají jako identifikátory, není je možné je snadno obfuskovat.
 Díky modulární struktuře OSGi je navíc možné ochanu distribuovanou jako plug-in
 snadno odstranit případně nahradit vlastní prázdnou implementací.
 	
 \section{Cíle práce}
 Cílem práce je prozkoumat dostupná řešení, která umožňjí přidat do aplikací
 podporu pro licencování. Dále také prozkoumat možnosti ochrany aplikací
-postavených na platformě OSGi a navrhnout a naimplementovat nástroj pro
+postavených na platformě \gls{OSGi} a navrhnout a naimplementovat nástroj pro
 licencování, který bude splňovat následující podmínky:
 \begin{itemize}
   \item Implementace v jazyce Java

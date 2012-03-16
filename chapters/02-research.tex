@@ -6,7 +6,8 @@ je kladen na následující vlastnosti:
 
 \begin{itemize}
   \item Integrovatelnost s aplikacemi napsanými v jazyce Java
-  \item Podpora pro aplikace napsané na platformě Eclipse/OSGi
+  \item Podpora pro aplikace napsané na platformě
+  \glslink{gls-eclipse-rcp}{Eclipse RCP}/\gls{OSGi}
   \item Funkčnost v operačních systémech Linux a Windows
   \item Možnost centrální správy licencí
   \item Možnost vázat licenci na konkrétní hardware
@@ -17,12 +18,12 @@ je kladen na následující vlastnosti:
 \section{License4j}
 
 License4j\cite{license4j} je jendoduchá knihovna, která umožňuje vytvářet
-licence pro aplikace napsané v Javě. Obsahuje GUI nástroj pro generování
+licence pro aplikace napsané v Javě. Obsahuje \gls{GUI} nástroj pro generování
 licenčních souborů, které se digitálně podepíší a přibalí se k výsledné
 aplikaci. Platnost souboru se kontroluje v aplikaci pomocí přidaného veřejného
 klíče, čímž je znemožňeno modifikovat licenční soubor.
 
-\begin{figure}[H]
+\begin{figure}[TB]
 \begin{center}
 \includegraphics[width=12cm]{figures/license4j.PNG}
 \caption{License4j UI pro tvorbu licencí}
@@ -35,13 +36,13 @@ Aplikace je dostupná volně ke stažení, verze zdarma umožňuje vytvářet li
 platností 10 dní, licenci pro plnou funkčnost je možné zakoupit za částku \$35.
 K produktu je navíc možné dokoupit roční rozšířenou podporu za \$15.
 
-Distribuovaná verze obsahuje knihovny a GUI bez zdrojových kódů. Mezi vlastnosti
-produktu patří:
+Distribuovaná verze obsahuje knihovny a \gls{GUI} bez zdrojových kódů. Mezi
+vlastnosti produktu patří:
 
 \begin{itemize}
-  \item Ruční výroba licenčního souboru pomocí dodané aplikace s GUI,
+  \item Ruční výroba licenčního souboru pomocí dodané aplikace s \gls{GUI},
   předdefinované položky v licenci
-  \item Možnost zabudování MAC adresy nebo hostname do licenčního souboru
+  \item Možnost zabudování \gls{MAC} adresy nebo hostname do licenčního souboru
   \item Kontrola platnosti licence za běhu pomocí veřejného klíče 
 \end{itemize}
 
@@ -50,20 +51,20 @@ License4j je jendoduchoá knihovna s velmi omezeným použitím, čemuž odpoví
 poměrně nízká pořizovací cena. 
 
 Výhodou může být snadná integrovatelnost s existujícími aplikacemi a snadná
-výroba licenčních klíčů pomocí dodaného GUI.
+výroba licenčních klíčů pomocí dodaného \gls{GUI}.
 
 Hlavní nevýhodou tohoto produktu je potřeba ručně generovat licenční soubory
 pro každého zákazníka, což může být při distribuci většího množství licencí
-problematické. Licence je sice možné vázat na MAC adresu nebo hostname, to ale
-není pro reálné použití příliš vhodné.
+problematické. Licence je sice možné vázat na \gls{MAC} adresu nebo hostname, to
+ale není pro reálné použití příliš vhodné.
 
 
 \section{JLicense}
 Podobně jako u předchozího produktu se v případě JLicense\cite{jlicense} jedná o
-jednoduchou knihovnu, která umožňuje pomocí GUI generovat licenční klíče,
+jednoduchou knihovnu, která umožňuje pomocí \gls{GUI} generovat licenční klíče,
 jejichž platnost se poté v aplikaci kontroluje pomocí digitálního podpisu.
 
-\begin{figure}[H]
+\begin{figure}[TB]
 \begin{center}
 \includegraphics[width=12cm]{figures/jlicense.PNG}
 \caption{JLicense UI pro tvorbu licencí}
@@ -76,7 +77,7 @@ Knihovnu je možné stáhnout a používat zdarma. V případě zájmu je možn�
 zdrojové kódy za cenu \$50. Vlastnosi produktu jsou:
 
 \begin{itemize}
-  \item Ruční výroba licenčního souboru pomocí dodané aplikace s GUI,
+  \item Ruční výroba licenčního souboru pomocí dodané aplikace s \gls{GUI},
   předdefinované položky v licenci
   \item Možnost zabudování IP adresy do licence
 \end{itemize}
@@ -90,10 +91,10 @@ poplatek.
 \section{Rampart}
 Posledním ze zástupců kategorie malých knihoven je knihovna
 Rampart\cite{rampart}. Stejně jako v předchozích připadech se produkt skládá z
-GUI pro generování licenčních souborů a runtime knihovny pro ověřování
+\gls{GUI} pro generování licenčních souborů a runtime knihovny pro ověřování
 vygenerovaných licencí.
 
-\begin{figure}[H]
+\begin{figure}[TB]
 \begin{center}
 \includegraphics[width=12cm]{figures/rampart.PNG}
 \caption{Rampart UI pro tvorbu licencí}
@@ -107,7 +108,7 @@ stránek výrobce, licenci na plnou verzi je možné zakoupit za \$29. Mezi
 vlastnosti produktu patří:
 
 \begin{itemize}
-  \item Výroba a správa licencí pomocí GUI
+  \item Výroba a správa licencí pomocí \gls{GUI}
   \item Podpora pro trial verze
 \end{itemize}
 
@@ -126,7 +127,7 @@ určený pro nasazení v enterprise prostředí. Obsahuje jak velmi pokročilý 
 umožňující vytváření, správu a integraci licencí, tak i server pro centrální
 správu licencí.
 
-\begin{figure}[H]
+\begin{figure}[TB]
 \begin{center}
 \includegraphics[width=12cm]{figures/protection4.PNG}
 \caption{Protection developer control center}
@@ -160,8 +161,8 @@ vlastností. Nevýhodou může být vysoká pořizovací cena pro menší projek
 
 \section{LM-X License Manager}
 LM-X License Manager\cite{lm-x} je další z komerčních licenčních nástrojů
-orientovaný na velké společnosti. Produkt je distribuován v podobě SDK napsaného
-v C++, pro integraci s aplikacemi napsanými v Javě výrobce poskytuje obalovací
+orientovaný na velké společnosti. Produkt je distribuován v podobě \gls{SDK}
+napsaného v C++, pro integraci s aplikacemi napsanými v Javě výrobce poskytuje obalovací
 třídy.
 
 \subsection*{Vlastnosti}
@@ -175,7 +176,7 @@ platformu.
 Vlastnosti produktu:
 
 \begin{itemize}
-  \item Integrace s aplikacemi pomocí výrobcem dodaného SDK
+  \item Integrace s aplikacemi pomocí výrobcem dodaného \gls{SDK}
   \item Možnost vystavovat licence vázané na hardware i plovoucí licence
   \item Licenční server pro centrální správu licencí 
 \end{itemize}
@@ -229,9 +230,9 @@ Průzkum ukazuje, že dostupná řešení se dělí ve své podstatě na 2 kateg
 \end{itemize}
 
 Ukazuje se také, že žádný z dostupných nástrojů neobsahuje podporu pro aplikace
-psané na platformě Eclipse, případně OSGi.
+psané na platformě Eclipse RCP, případně \gls{OSGi}.
 % License4J - http://www.license4j.com/
-% - v podstate jen podepsani licencnich udaju + GUI
+% - v podstate jen podepsani licencnich udaju + \gls{GUI}
 % - cena = $35
 % - generovani HW otisku
 %   - mac 
