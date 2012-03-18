@@ -84,7 +84,8 @@ následující vlastnosti.
   \item Vazba na hardware – platnost licence je možné vázat na konkrétní
   hardware
   \item Licencované vlastnosti - do vystavené licence je možné zanést
-  informace o povolených vlastnostech licencovaného produktu.
+  informace o povolených vlastnostech licencovaného produktu. Licencované
+  vlastnosti je možné přidávat a odebírat
 \end{itemize}
 
 \subsubsection*{Vlastnosti klientské části}
@@ -153,6 +154,7 @@ komunikace s nimi probíhá pomocí pevně daného rozhraní. To umožňuje udr�
 komponentu nezávislou na použitém komunikačním protokolu a databázové vrstvě.
 
 \subsubsection*{Communication Service}
+\label{subsec:comm-service}
 
 Communication Service je komponenta odpovědná za komunikaci s klientskými
 aplikacemi. Jejím vyčleněním do samostatné části je dosaženo odstranění
@@ -210,6 +212,7 @@ aktuální licenci a případně umožnit aplikaci si vyžádat aktivaci nové l
 %TODO
 
 \subsubsection*{License Service Client}
+\label{subsec:license-service-client}
 
 Komponenta License Service Client slouží ke komunikaci se serverovou aplikací.
 Jedná se o protějšek serverové komponenty Communication Service. Vyčleněním
@@ -241,5 +244,165 @@ modifikaci z venčí.
 Rozhraní License Service je jediná část licencovacího nástroje viditelná z
 klientské aplikace. Umožňuje klientské aplikaci provést ověření aktuální licence
 a v případě potřeby vyžádání nové licence.
+
+\section{Doménový model}
+
+
+
+\section{Komunikace}
+
+V návrhu architektury licencovacího nástroje je v
+sekci~\ref{subsec:comm-service} navržena serverová komponenta pro komunikaci s
+klientskými aplikacemi, v sekci~\ref{subsec:license-service-client} je popsán
+její protějšek umístěný v klientské aplikaci. Komponenty umožňují použití
+libovolného komunikačního protokolu mezi klientskou a serverovou částí, v
+navrhovaném licencovacím nástroji bude tato část implementována v podobě RESTful
+webové služby.
+
+Architektura \gls{REST} byla vybrána z následujících důvodů:
+\begin{itemize}
+  \item Komunikace probíhá pomocí protokolu \gls{HTTP}. To je výhodné například
+  při použití v podnikovém prostředí, kde kromě \gls{HTTP} protokolu bývají
+  ostatní komunikační protokoly omezené nebo zakázané.
+  \item Jazyk Java obsahuje nativní podporu pro komunikaci pomocí protokolu
+  \gls{HTTP}, na klientské straně nejsou potřeba žádné další knihovny.
+  \item Protokol \gls{HTTP} je bezestavový, což zjednodušuje implementaci.
+  \item Protokol \gls{HTTP} není vázán pouze na jazyk Java, serverovou část je
+  možné volat i z klientů napsaných v jiných jazycích.
+\end{itemize}
+
+\subsection{REST}
+
+\gls{REST} je koncept pro návrh distribuované architektury, u které je
+komunikace realizována pomocí protokolu \gls{HTTP}. \gls{REST} webové služby
+jsou orientovány na práci s datovými zdroji. Každý zdroj má svůj unikátní
+identifikátor (\gls{URN}), pomocí něhož se s daným zdrojem manipuluje. Rozlišují
+se čtyři základní operace:
+
+\begin{itemize}
+  \item Create - vytvoření zdroje, na úrovni protokolu \gls{HTTP} se pro tuto
+  operaci používá metoda PUT.
+  \item Read - čtení informací z datového zdroje, pro tuto operaci se používá
+  metoda GET.
+  \item Update - upravení informací zdroje, nejčastěji realizováno metodou POST
+  \item Delete - smazání datového zdroje, pro tuto operaci se používá metoda
+  DELETE.
+\end{itemize}
+
+Výsledek provedené operace je klientovi sdělen pomocí návratového kódu
+\gls{HTTP}. Nejčastěji se používají následující návratové kódy:
+
+\begin{itemize}
+  \item 200 OK - Kód označuje, že požadavek byl proveden úspěšně.
+  \item 400 Bad Request - Kód vrácen v případě, že požadavek od klienta je
+  špatně zfromulován, nebo obsahuje neplatné údaje.
+  \item 404 Not Found - Kód označující, že požadovaný zdoj nebyl nalezen.
+  \item 500 Internal Server Error - Kód vrácen v případě, že při zpracování
+  došlo k chybě naserveru.
+\end{itemize}
+
+Kompletní přehled stavových kódu \gls{HTTP} lze nalézt ve specifikaci
+\cite{rfc-http}.
+
+Pokud chce klient například získat informace o licenci 12345, komunikace bude
+vypadat následovně:
+
+\begin{enumerate}
+  \item Klient pošle \gls{HTTP} požadadavek na adresu
+  http://server/licence/12345
+  \item Server přijme požadavek a vyhledá licenci s identifikátorem 12345.
+  \item Server odešle klientovi odpověď s návratovým kódem 200. Informace o
+  licenci budou obsaženy v těle odpovědi ve formátu \gls{XML}.
+\end{enumerate}
+
+\subsection{Serverové rozhranní}
+
+Serverová část poskytne klientům pomocí \gls{REST} webové služby metody pro
+práci s licencemi.
+
+\subsubsection*{Zažádání o aktivaci licence}
+
+Serverová část umožní klientským aplikacím zažádat o aktivaci licence. Aktivace
+se provede pomocí \gls{HTTP} dotazu typu POST na \gls{URL} /activations. V
+požadavku klient uvede:
+
+\begin{itemize}
+  \item Identifikátor licence, kterou chce klientská aplikace aktivovat.
+  \item Hardwarový otisk počítače, ze kterého je prováděna aktivace.
+\end{itemize}
+
+Server zpracuje požadavek, možné odpovědi jsou uvedeny v tabulce \ref{tab:license-request-responses} 
+
+\begin{table}\centering
+	\caption[Results]{Seznam možných odpovědí
+	serveru na požadavek na akitvaci licence}\label{tab:license-request-responses}
+	\begin{tabular}{|p{1cm}|p{3cm}|p{4cm}|p{3cm}|}\hline 
+	Kód		&  Popis	& Obsah těla odpovědi & Položky v hlavičce odpovědi
+	\tabularnewline \hline \hline 
+	201		& Licence úspěšně vytvořena	& Textová reprezentace nově vytvořené aktivace
+	& parametr Location s adresou nově vytvořené aktivace
+	\tabularnewline \hline
+	TODO	& Požadovaná licence nenalezena & Informace o typu chyby & -
+	\tabularnewline \hline
+	403		& Platnost licence vypršela & Informace o typu chyby a platnosti licence &
+	-
+	\tabularnewline \hline
+	403		& Licence zneplatněna	& Informace o typu chyby & -
+	\tabularnewline \hline
+	403 	& Vyčerpán počet aktivací & Informace o typu chyby, maximální počet
+	aktivací & -
+	 \tabularnewline \hline
+	\end{tabular}
+\end{table}
+
+\subsubsection*{Získání informace o aktivaci licence}
+
+Serverová část umožní klientským aplikacím získat informace o aktivaci licence
+provedením \gls{HTTP} dotazu typu GET bez těla na adresu
+/activations/\{identifikátor~aktivace\}.
+
+Možné odpovědi serveru jsou v tabulce \ref{tab:activation-request-responses}
+
+
+\begin{table}\centering
+	\caption[Results]{Seznam možných odpovědí
+	serveru na požadavek na informace o akitvaci
+	licence}\label{tab:activation-request-responses} \begin{tabular}{|p{1cm}|p{3cm}|p{4cm}|p{3cm}|}\hline 
+	Kód		&  Popis	& Obsah těla odpovědi & Položky v hlavičce odpovědi
+	\tabularnewline \hline \hline 
+	200		& Aktivace nalzena	& Textová reprezentace údajů o aktuïvaci licence
+	& -
+	\tabularnewline \hline
+	404	& Požadovaná aktivace licence nenalezena & - & -
+	\tabularnewline \hline
+	\end{tabular}
+\end{table}
+
+\subsection{Zabezpečení komunikace}
+
+Informace jsou u \gls{HTTP} protokolu přenášeny v čitelné textové podobě. Tím
+vznikají následující rizika:
+
+\begin{itemize}
+  \item Útočník může odposlechnout přenášená data. Při komunikaci s licenčním
+  serverem se nepřenášejí žádné důvěrné informace (například údaje o klientovi),
+  útočník ale může získat identifikátor licence a pomocí něj si aktivovat
+  vlastní kopii licencovaného software.
+  \item Útočník může pozměnit obsah zprávy, případně komunikaci se serverem
+  podvrhnout. Tím by bylo možné si například změnit typ licence nebo do
+  licence přidat vlastnosti, ačkoliv je uživatel nemá v licenci zahrnuty.
+\end{itemize}
+
+Pokud zamezit odposlechu komunikace, klientská aplikace umožní použít ke
+komunikaci namísto nešiforvaného protokolu \gls{HTTP} bezpečnější šifrovanou
+verzi \gls{HTTPS}. Nevýhodou tohoto řešní je nutnost mít v klientské aplikaci i
+na serveru nainstalovaný důvěryhodný certifikát, pomocí něhož se bude komunikace
+šifrovat.
+
+Možností, jak zamezit modifikaci požadavku mezi klientskou a serverovou
+aplikací, je použití digitálního podpisu. Do hlavičky každého požadavku se
+připojí kontrolní součet těla požadavku zašifrovaný klíčem klienta nebo
+serveru. Tím bude možné zkontrolovat, že zpráva byla přenesená bez modifikace.
+Zároveň se tím potvrdí identita odesílatele zprávy.
 
 
