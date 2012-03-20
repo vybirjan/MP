@@ -247,6 +247,74 @@ a v případě potřeby vyžádání nové licence.
 
 \section{Doménový model}
 
+Doménový model aplikace odpovídající požadavkům nastíněných v předhozích
+sekcích je zobrazen na obrázku \ref{fig:domain}.
+
+
+\begin{figure}[tbh]
+\begin{center}
+\includegraphics[width=11cm]{figures/domain.png}
+\caption{Doménový model aplikace}
+\label{fig:domain} 
+\end{center}
+\end{figure}
+
+Model představuje minimální základ potřebný pro serverovou aplikaci k vydávání
+licencí. V této podobě umožňuje vystavení licence s definovanými vlastnostmi,
+omezení platnosti a kontrolu nad počtem aktivací licencí. Model je navržen s
+ohledem na další rozšíření, možnosti jak dodat například podporu pro správu
+uživatelů jsou diskutovány v následující části.
+
+
+\subsection*{Feature}
+
+Třída Feature představuje určitou vlastnost, kterou potřebujeme identifikovat na
+úrovni licencované aplikace. Z pohledu licencované aplikace může vlastnost
+představovat například modul aplikace. Pokud je v licenci vlastost s
+odpovídajícím kódem nalezena, uživateli se zpřístupní funkcionalita poskytovaná
+daným modulem. Pokud není licencovaná aplikace členěna na jednoltivé moduly, je
+možné vlastnost použít pro zpřístupnění celé aplikace.
+
+Třída Feature obsahuje následující atributy:
+
+\begin{itemize}
+  \item \textbf{code} - unikátní identifikátor vlastnosti, který je kontrolován
+  v licencované aplikaci.
+  \item \textbf{descriton} - nepovinný atribut obsahující textový popis k dané
+  vlastnosti určený pro zobrazení v uživatelském rozhraní.
+  \item \textbf{validFrom, validTo} - data označující časové ohraničení
+  platnosti dané vlastnosti.
+\end{itemize}
+
+Při ukládání do relační databáze je vhodné třídu Feature rozdělit na 2
+samostatné tabulky. První, sloužící jako číselník vlastností, by v tomto případě
+obsahovala pouze kód a popis. Druhá, reprezentující vazbu mezi
+licencí a vlastnostmi, by obsahovala data platnosti, odkaz na vlastnost z
+číselníku a odkaz na příslušnou licenci. 
+
+\subsection*{License}
+
+Třída License představuje licenci umožňující uživateli využívat vlastnosti v ní
+uvedené po dobu její platnosti. Licenci je možno chápat jako unikátní sadu
+omezení pro používání aplikace. 
+
+\begin{itemize}
+  \item \textbf{active} - booleovská hodnota určucící, zda je licence aktivní.
+  Pomocí tohoto atributu je možné vydané licence zneplatnit.
+  \item \textbf{createActivations} - booleovská hodnota určucící, zda je pro
+  danou licenci možné vytvářet nové aktivace. Nastavením na false a přiřazením
+  pevně daných aktivací umožníme vázat licenci na předem specifikovaný hardware.
+  \item \textbf{description} - volitelný textový popis licence, určený pro
+  zorazení v \gls{GUI}.
+  \item \textbf{maxActivations} - maximální počet aktivací dané licence. Atribut
+  umožní omezit počet aktivací licence.
+  \item \textbf{number} - unikátní licenční číslo sloužící pro identifikaci
+  licence. Pomocí tohoto čísla je možné z klientské aplikace vyžádat aktivování
+  licence.
+  \item \textbf{validFrom, validTo} - data omezující časovou platnost licence.
+\end{itemize}
+
+
 
 
 \section{Komunikace}
