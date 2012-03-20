@@ -16,21 +16,21 @@ Výsledný navrhovaný nástroj musí splňovat následující podmínky
 Vzhledem k tomu, že důvodem ke vzniku práce bylo dodání licencovacího mechanismu
 do existujících aplikací napsaných v jazyce Java, jedním z hlavních požadavků
 je celý navržený systém implementovat v Javě. Ačkoliv Java umožňuje využívat
-knihovny napsané například v C/C++ pomocí JNI\cite{jni} nebo JNA\cite{jna}, je
+knihovny napsané například v C/C++ pomocí \gls{JNI} nebo \gls{JNA}, je
 použití nativních knihoven mnohem snadnější.
 
 
 \subsubsection*{Podpora pro aplikace napsané na platformě Eclipse RCP}
 
 Důvodem tohoto požadavku je fakt, že existující aplikace jsou napsány právě na
-platformě Eclipse RCP\cite{eclipse-rcp}. Pro snadnější integraci by měla být
+platformě . Pro snadnější integraci by měla být
 klientská část navrhovaného systému distribuovaná v podobě pluginu.
 
 Důsledkem tohoto požadavku je kromě podoby výsledné distribuce klientské části
 také omezení týkající se knihoven třetích stran. Využívany by měli být především
 takové knihovny, které jsou obvykle obsaženy ve většině distribucí aplikací
-napsaných na platformě Eclipse RCP. Například v případě použití GUI by měla být
-použita knihovna SWT\cite{swt}.
+napsaných na platformě \glslink{gls-eclipse-rcp}{Eclipse RCP}. Například v
+případě použití \gls{GUI} by měla být použita knihovna \gls{SWT}.
 
 \subsubsection*{Funkčnost na operačních systémech Windows a Linux}
 
@@ -53,7 +53,7 @@ rozšířit podporu i pro další operační systémy.
 K rozhodnutí o přidání funkčnosti pro licencování do aplikace může dojít až v
 pozdější fázi vývoje, případně může být požadavek licencování přidat do již
 hotového produktu. Z tohoto důvodu by měla být integrace co nejjednodušší.
-Modulární architektura platformy Eclipse RCP toto v případě integrace do
+Modulární architektura platformy \glslink{gls-eclipse-rcp}{Eclipse RCP} toto v případě integrace do
 desktopové aplikace usnadní. Stejný požadavek ale můžemem mít také na serverové
 straně. Pokud již máme existující databázi uživatelů, mohli bychom ji chtít
 využít pro vystavení licencí.
@@ -268,8 +268,8 @@ uživatelů jsou diskutovány v následující části.
 
 \subsection*{Feature}
 
-Třída Feature představuje určitou vlastnost, kterou potřebujeme identifikovat na
-úrovni licencované aplikace. Z pohledu licencované aplikace může vlastnost
+Třída \textit{Feature} představuje určitou vlastnost, kterou potřebujeme
+identifikovat na úrovni licencované aplikace. Z pohledu licencované aplikace může vlastnost
 představovat například modul aplikace. Pokud je v licenci vlastost s
 odpovídajícím kódem nalezena, uživateli se zpřístupní funkcionalita poskytovaná
 daným modulem. Pokud není licencovaná aplikace členěna na jednoltivé moduly, je
@@ -294,16 +294,18 @@ licencí a vlastnostmi, by obsahovala data platnosti, odkaz na vlastnost z
 
 \subsection*{License}
 
-Třída License představuje licenci umožňující uživateli využívat vlastnosti v ní
-uvedené po dobu její platnosti. Licenci je možno chápat jako unikátní sadu
+Třída \textit{License} představuje licenci umožňující uživateli využívat
+vlastnosti v ní uvedené po dobu její platnosti. Licenci je možno chápat jako unikátní sadu
 omezení pro používání aplikace. 
+
+Atributy licence:
 
 \begin{itemize}
   \item \textbf{active} - booleovská hodnota určucící, zda je licence aktivní.
   Pomocí tohoto atributu je možné vydané licence zneplatnit.
   \item \textbf{createActivations} - booleovská hodnota určucící, zda je pro
-  danou licenci možné vytvářet nové aktivace. Nastavením na false a přiřazením
-  pevně daných aktivací umožníme vázat licenci na předem specifikovaný hardware.
+  danou licenci možné vytvářet nové aktivace. Pokud je nastavena na false,
+  požadavky na vytvoření nové aktivace pro danou licenci selžou.
   \item \textbf{description} - volitelný textový popis licence, určený pro
   zorazení v \gls{GUI}.
   \item \textbf{maxActivations} - maximální počet aktivací dané licence. Atribut
@@ -314,7 +316,42 @@ omezení pro používání aplikace.
   \item \textbf{validFrom, validTo} - data omezující časovou platnost licence.
 \end{itemize}
 
+\textit{License} obsahuje podobně jako Feature data počátku a konce platnosti. V
+klientské aplikaci je důležitý pouze seznam vlastností, výsledné datum platnosti
+každé vlastnosti odeslané na klientskou aplikaci vznikne jako průnik dat
+platnosti na třídě License a Feature.
 
+Na licenci můžou být vázána další data. K licenci můžeme například přiřadit
+informace o osobě, pro kterou je licence vytvořena, případně informace o
+provedených platbách.
+
+
+\subsection*{Activation}
+
+Třída \textit{Activation} slouží pro spravování počtu aktivovaných licencí. K
+tomu, aby bylo možné licenci na klientské aplikaci používat, je nejprve ji nutné aktivovat
+na serveru. Při aktivaci klient odešle na server číslo aktivované licence a
+otisk počítače, na základě těchto údajů se vyrobí nová aktivace.
+
+Atributy třídy Activation:
+
+\begin{itemize}
+  \item \textbf{acitve} - booleovská hodnota určucící, zda je aktivace platná.
+  Nastavením na false je možné zneplatnit aktivaci a klientská aplikace si bude
+  muset vyžádat novou aktivaci. Zneplatněné aktivace se nezapočítávají do
+  maximálního počtu aktivací.
+  \item \textbf{dateActivated} - datum, kdy byla aktivace vytvořena.
+  \item \textbf{fingerprint} - hardwarový otisk počítače, z něhož byla aktivace
+  provedena.
+\end{itemize}
+
+Pomocí aktivací je možné omezit počet současně aktivovaných licencí. V případě,
+že chceme mít licenci vázanou na konkrétní hardware s určitým otiskem, na
+licenci se nastaví atribut \textit{createActivations} na \textit{false}a licenci
+se přiřadí předem připravená aktivace s požadovaným aktivačním hardwarovým
+otiskem. Pokud přijde požadavek na aktivaci licence se stejným hardwarovým
+otiskem jako je ten, definovaný v připravené aktivaci, server vrátí připravenou
+aktivaci. Při požadavku s jiným otiskem vytvoření aktivace selže.
 
 
 \section{Komunikace}
@@ -407,9 +444,12 @@ Server zpracuje požadavek, možné odpovědi jsou uvedeny v tabulce \ref{tab:li
 	\begin{tabular}{|p{1cm}|p{3cm}|p{4cm}|p{3cm}|}\hline 
 	Kód		&  Popis	& Obsah těla odpovědi & Položky v hlavičce odpovědi
 	\tabularnewline \hline \hline 
-	201		& Licence úspěšně vytvořena	& Textová reprezentace nově vytvořené aktivace
-	& parametr Location s adresou nově vytvořené aktivace
-	\tabularnewline \hline
+	201		& Aktivace licence úspěšně vytvořena	& Textová reprezentace nově vytvořené
+	aktivace & parametr Location s adresou nově vytvořené aktivace
+	\tabularnewline \hline \hline 
+	200		& Aktivace licence pro počítač s daným otiskem již existuje	& Textová
+	reprezentace existující aktivace & - &
+	aktivace \tabularnewline \hline
 	TODO	& Požadovaná licence nenalezena & Informace o typu chyby & -
 	\tabularnewline \hline
 	403		& Platnost licence vypršela & Informace o typu chyby a platnosti licence &
