@@ -1,0 +1,46 @@
+\chapter{Ochrana aplikace}
+
+Cílem této kapitoly je prozkoumat problematiku zabezpečení aplikací napsaných v
+jazyce Java proti modifikacím a navrhnout možné způsoby, jak se neautorizovaným
+úpravám zabránit.
+
+\section{Bezpečnostní rizika}
+
+Pokud chceme v aplikaci použít licenční mechanismus, který omezí funkčnost
+aplikace na základě vystavené licence, je potřeba aplikaci zabezpečit proti
+neautorizovaným úpravám. Aby byl licenční mechanismus účinný, nemělo by být
+možné ho jendoduše obejít nebo úplně odstranit z aplikace.
+
+V této části jsou popsány hlavní problémy se zabezpečením aplikací napsaných v
+Javě proti modifikacím.
+
+\subsection{Čitelnost bytecode}
+
+Aplikace napsané v Javě jsou, na rozdíl od aplikací napsaných například v
+jazycích C/C++, multiplatformní. To znamená, že aplikaci napsanou a
+zkompilovanou na Windows je možné spustit bez dalšího kompilování i na jiných
+operačních systémech. Toho je dosaženo díky použití bytecode. Aplikace napsané v
+Javě nejsou kompilovány přímo do strojového kódu pro danou platformu, ale do
+tzv. bytecode, který je interpretován virtuálním strojem Javy. Při kompilaci je
+pro každou třídu vytvořen samostatný soubor s příponou .class, který kromě
+instrukcí pro virtuální stroj javy obsahuje i popis všech metod a atributů dané
+třídy.
+
+Soubory obsahující definice tříd mají přesně specifikovanou a dobře
+zdokumentovanou strukturu a jsou uloženy v čitelné podobě. Navíc bytecode
+obsahuje v provonání se strojovým kódem instrukce na mnohem vyšší úrovni
+abstrakce. Bytecode obsahuje například i instrukce pro přístup k atributům tříd
+nebo volání metod. Díky tomu je možné dekompilací z .class souborů poměrně
+snadno získat zpět zdrojový kód, který je navíc velmi podobný původnímu
+zdrojovému kódu, jehož kompilací byl .class soubor vytvořen.
+
+Ukázka dekompilace kódu je TODO
+
+
+Díky možnosti dekompilace a úpravy již zkompilovaných souborů může útočník
+snadno z aplikace odstranit volání licenční knihovny a tím docílit neomezeného
+využívání licencované aplikace.
+
+\subsection{Linkování knihoven}
+
+

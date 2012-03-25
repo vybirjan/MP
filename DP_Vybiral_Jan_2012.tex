@@ -15,6 +15,7 @@
 % \usepackage{amssymb} %additional math symbols
 
 % list of acronyms
+\usepackage{multicol}
 \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
 \iflanguage{czech}{\renewcommand*{\acronymname}{Seznam pou{\v z}it{\' y}ch zkratek}}{}
 \makeglossaries
@@ -61,6 +62,9 @@
 % Kapitola 3 - Analýza
 \include{chapters/03-analysis}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Kapitola 4 - Ochrana aplikace
+\include{chapters/04-application-protection}
 
 
 \begin{conclusion}
