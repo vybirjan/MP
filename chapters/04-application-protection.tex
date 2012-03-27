@@ -37,10 +37,89 @@ zdrojovému kódu, jehož kompilací byl .class soubor vytvořen.
 Ukázka dekompilace kódu je TODO
 
 
+
+
 Díky možnosti dekompilace a úpravy již zkompilovaných souborů může útočník
 snadno z aplikace odstranit volání licenční knihovny a tím docílit neomezeného
 využívání licencované aplikace.
 
 \subsection{Linkování knihoven}
+
+Při kompilaci aplikace je nutné k výslednému programu připojit také používané
+knihovny. Tomuto kroku se říká linkování a rozlišujeme dva základní způsoby –
+statické a dynamické liknování.
+
+V případě statického liknování jsou všechny závislosti na knihovy vyřešeny během
+kompilace a jsou zabaleny společne s kódem aplikace do výsledného spustitelného
+souboru. Tento způsob je často používán u jazyků kompilovaných do strojového
+kódu jako je například C nebo C++.
+
+U dynamického linkování jsou knihovny umístěny mimo výsledný zkompilovaný
+spustitelný soubor a můžou být k programu připojeny až ve chvíli, kdy je volána
+některá jejich metoda. 
+
+Dynamické linkování je použito v Javě pro načítání tříd. Načtení třídy se
+provede za běhu programu až ve chvíli, kdy je třída poprvé použita. Pro
+identifikaci tříd se používá celé jméno třídy včetně balíčku, ve kterém je třída
+umístěna. Ve zkompilovaném programu je tedy uložen pouze název odkazované třídy,
+případně názvy volaných metod. To může představovat bezpečnostní riziko pro
+aplikaci.
+
+Pokud bychom měli například třídu \textbf{com.test.LicenseService} a aplikace by
+pomocí této třídy prováděla ověřování licence, útočníkovi stačí tuto třídu
+nahradit vlastní implementací se stejným jménem a signaturou. Aplikace by při
+prvním použití načetla útočníkovu třídu a použila ji pro ověření licence.
+
+U aplikací postavených na platformě \gls{OSGi} je tato vlastnost Javy ještě
+problematičtější. Pokud by byla část starající se o licencování přidána do
+aplikace jako plugin, dá se snadno odstranit a nahradit upravenou verzí. Pluginy
+navíc obsahují popis všech sdílených balíků a poskytovaných služeb, takže jejich
+nahrazení je ještě o něco snazší. Pokud by byla třída navíc publikována jako
+\gls{OSGi} služba, stačilo by útočníkovi vytvořit vlastní plugin, který by
+zaregistroval stejnou službu s větší prioritou.
+
+
+\section{Možné způsoby ochrany}
+
+\subsection{Obfuskace}
+
+Obfuskace je úprava kódu aplikace takovým způsobem, aby se tím zakryl jeho
+původní účel. Obfuskovaný kód aplikace vykonává stejnou činnost jako kód před
+obfuskací, je ovšem mnohem obtížnější z něj odahlit, co přesně má kód vykonávat.
+Pro Javu existuje celá řada různých nástrojů, které umožňují obfuskovat
+aplikace, používá se buď obfuskace zdrojových kódu nebo obfuskace zkompilovaných
+tříd. Obfuskace na úrovni zdrojového kódu je vhodná spíše v případě, že zdrojový
+kód je dostupný cizím osobám a chceme zamezit tomu, aby mohli kód použít k
+dalšímu vývoji. Obfuskace bytecode znesnadňuje dekompilaci obfuskovaných tříd.
+Výhodou obfuskace na úrovni bytecode je fakt, že pravidla pro bytecode jsou méně
+restriktivní než které uplatňuje překladač Javy. Tím můžeme zkompilovaný program
+upravit tak, že z něj nepůjde zpětně zrekonstruovat platný zdrojový kód v Javě.
+
+Při obfuskování programů se používají růné techniky. Nejčastěji se
+přejmenovávají názvy balíčků, tříd, metod a proměnných tak, aby z nich nešlo
+jednoduše poznat, jakou funkcni zastávají. Často se také do kódu přidávají
+složité řídící struktury nebo zbytečná volání metod.
+
+Ačkoliv obfuskací je možné zvýšit obtížnost dekompilace aplikace a následného
+odstranění licenčního mechanismu, existuje několik důvodů, které mohou bránit
+jejímu použití:
+
+\begin{itemize}
+  \item Při změně názvů tříd a metod je nutné tyto změny propagovat i do dalších
+  částí programu, které s obfuskovanou komponentou pracují. Pokud například
+  obfuskujeme \gls{OSGi} plugin, je nutné buď veřejné \gls{API} nechat nedotčené
+  nebo provádět obfuskaci nad všemi pluginy najednou. Obfuskování veřejného
+  \gls{API} pluginů ovšem značně znesnadňuje další rozšíření aplikace.
+  \item Obfuskováním může docházet ke snižování výkonu aplikace. Obfuskací se
+  mohou přidávat zbytečná volání metod nebo složité programové konstrukce, které
+  jsou složité na vyhodnocení.
+  \item Protože obfuskace změní kód aplikace tak, že neodpovídá zdrojovému kódu,
+  může být hledání chyb v obfuskovaném programu komplikované.
+  \item Obfuskace nepřináší žádnou bezpečnost navíc. Pomocí obfuskace se sice
+  získání původního kódu případně nalezení míst se zabezpečením znesnadní,
+  aplikaci ale bude stále možné libovolně dekompilovat a upravit.
+\end{itemize}
+
+
 
 
