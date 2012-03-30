@@ -151,7 +151,36 @@ Nevýhodou zabudování kontroly integrity do aplikace je hned několik:
   \item Přepočítávání otisků může být náročné na výkon.
 \end{itemize}
 
+
 \subsection{Šifrování bytecode}
+
+Šifrování bytecode je účinná metoda, která zamezuje dekompilaci a modifikaci
+aplikace. Zkompilované .class soubory jsou zašifrovány pomocí symetrické šifry.
+Jejich rozšifrování se provádí až za běhu před načtením zašifrované třídy pomocí
+uloženého klíče. Díky tomu není možné aplikaci jednoduše dekompilovat. Protože
+jsou .class soubory šifrované, nelze je přečíst pomocí dekompilátoru.
+
+Dešiforvání tříd při načtení je možné provést různými způsoby. U běžných
+aplikací napsaných v Javě je možné pro načítání šifrovaných tříd použít vlastní
+classloader. U aplikací postavených na platformě \gsl{OSGi} je situace ještě
+jednodušší. Platforma \gls{OSGi} umožňuje aplikacím definovat tzv. Adaptor
+Hooks. Jedná se o třídy, které rozšiřují funkcionalitu platformy a je možné je
+do aplikace přidat pomocí jednoduché konfigurace. Pro účely dešifrování bytecode
+se nejlépe hodí ClassLoadingHook. Ten umožňuje upravit bytecode třídy ještě před
+tím, než se načte pomocí classloaderu.
+
+Největším problémem této metody je potřeba mít uložený šifrovací klíč v
+aplikaci v čitelné podobě, aby bylo možné provést dešifrování tříd. Z toho
+vyplývá, že i když jsou třídy šifrované a nelze je dekompilovat, je možné z
+aplikace získat klíč a dešifrovat je pomocí něj. Tento nedostatek je možné
+částečně řešit zapojením licencovacího mechanismu. Šiforvací klíč může
+být do aplikace dodán až společne s platnou licencí. Navíc je možné šifovat
+různými klíči různé části aplikace a v licenci poslat jen klíče k částem
+programu, které jsou v licenci zahrnuty. Tím zajistíme, že bez platné licence
+nepůjde aplikace používat a ani nebude možné aplikaci dekompilovat a ochranu z
+ní odstranit.
+
+
 
 
 
