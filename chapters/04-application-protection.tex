@@ -95,7 +95,7 @@ Výhodou obfuskace na úrovni bytecode je fakt, že pravidla pro bytecode jsou m
 restriktivní než které uplatňuje překladač Javy. Tím můžeme zkompilovaný program
 upravit tak, že z něj nepůjde zpětně zrekonstruovat platný zdrojový kód v Javě.
 
-Při obfuskování programů se používají růné techniky. Nejčastěji se
+Při obfuskování programů se používají různé techniky. Nejčastěji se
 přejmenovávají názvy balíčků, tříd, metod a proměnných tak, aby z nich nešlo
 jednoduše poznat, jakou funkcni zastávají. Často se také do kódu přidávají
 složité řídící struktury nebo zbytečná volání metod.
@@ -119,6 +119,39 @@ jejímu použití:
   získání původního kódu případně nalezení míst se zabezpečením znesnadní,
   aplikaci ale bude stále možné libovolně dekompilovat a upravit.
 \end{itemize}
+
+
+\subsection{Kontrola integrity aplikace}
+
+Jako další z možností ochrany aplikace proti modifikacím se nabízí použítí
+zabudované kontroly integrity. Princip spočívá v tom, že aplikace má v sobě
+uložené informace o podobě jednotlivých částí (například v podobě
+kontrolních součtů nebo otisků). Při startu aplikace nebo za běhu se poté
+provede kontrola proti těmto informacím. V případě, že je zjištěn rozdíl, se
+aplikace ukončí.
+
+Účinnost této techniky je možné ještě zvýšit tím, že se kontrola integrity
+aplikace zduplikuje na větší počet míst v kódu. Pokud by například licencovací
+funkcionalita byla aplikaci poskytnuta v podobě \gls{OSGi} služby, před volání
+této služby by se umístil kód, který by ověřil, že služba byla poskytnuta ze
+správnéhu pluginu a že jeho otisk se nezměnil. Opakované ruční vkládání stejného
+kódu na velké množství míst ale ztěžuje údržbu aplikace a případné změny by bylo
+nutné aplikovat opakovaně, čímž se zvyžuje riziko zanesení chyb do aplikace.
+Proto je vhodné pro tento účel použít specializované nástroje pro manipulaci s
+bytecode, například ASM\cite{asm}.
+
+Nevýhodou zabudování kontroly integrity do aplikace je hned několik:
+\begin{itemize}
+  \item Je nutné udržovat otisky kontrolovaných částí aktuální. Pokud se upraví
+  část aplikace, je nutné příslušný otisk přepočítat a nahradit ho na všech
+  místech, kde je použit.
+  \item Použití této techniky nijak nezabezpečí samotný kód. Ten lze stále
+  dekompilovat a kontrolu otisků lze odstranit. Případně je možné jen upravit
+  uložené otisky aby odpovídali upravenému kódu.
+  \item Přepočítávání otisků může být náročné na výkon.
+\end{itemize}
+
+\subsection{Šifrování bytecode}
 
 
 
