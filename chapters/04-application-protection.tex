@@ -180,8 +180,45 @@ programu, které jsou v licenci zahrnuty. Tím zajistíme, že bez platné licen
 nepůjde aplikace používat a ani nebude možné aplikaci dekompilovat a ochranu z
 ní odstranit.
 
+Ani šifrování tříd neposkytuje neproniknutlenou ochranu. Bytecode tříd musí být
+za běhu dostupný v dešifrované podobě, aby jej bylo možné spouštět. Útočník tak
+může do aplikace přidat kód, který si pomocí deěifrovacího classloaderu načte
+bytecode libovolné třídy a poté si je může v nezašifrované podobě uložit na
+disk. Navíc kód aplikace sloužící k dešiforvání tříd musí být dostupný v
+nezašiforvané podobě, aby jej bylo možné načíst a použít pro dešifrování zbylých
+tříd. Dekompilací této části může útočník získa dostatek informací o použitém
+šiforvacím algoritmu a případně i šifrovací klíče potřebné pro dešiforvání
+zbytku aplikace.
 
+\subsection{Kompilace do nativního kódu}
 
+Kompilací aplikace do nativního kódu lze dosáhnout dobrého zabezpečení aplikace.
+Při této metodě je aplikace překládána místo do bytecode přímo do strojového
+kódu pro danou platformu. Během překladu se provádí řada úprav a optimalizací a
+díky tomu je získání původního zdrojového kódu téměř nemožné. Pro kompilaci
+programů napsaných v Javě existuje několik nástrojů:
 
+\begin{itemize}
+  \item GNU Compiler for Java\cite{gcj} - Jedná se o open-source kompilátor,
+  který umožňuje aplikace napsané v Javě kompilovat jak do bytecode, tak i do
+  strojového kódu pro různé platformy, podporuje i překlad bytecode do
+  strojového kódu. Nevýhodou GCJ je chybějící podpora pro \gls{GUI} a některé
+  další součásti standardní knihovny Javy, podporovaná je pouze Java ve
+  verzi 1.4 a částečně 1.5.
+  \item Excelsior JET\cite{jet} - JET je sada nástrojů a běhové prostředí pro
+  aplikace napsané v Javě. Umožňuje kompilovat Javovské aplikace do strojového
+  kódu a spouštět je ve vlastním běhovém prostředí, které je kompatibilní s
+  Javou verze 1.6. Protože se jendá o komerční produkt, jako největší nevýhoda
+  může být cena, která se pohybuje řádově v tisících euro za platformu pro
+  komerční použití. Pro nekomerční použití je možné získat licenci zdarma.
+\end{itemize}
+
+Nevýhodou kompilování Javovských aplikací do strojového kódu je především ztráta
+přenositelnosti mezi platformami. Pro každou podporovanou platformu je nutné
+zkompilovat aplikaci samostatně. Výhodou může být kromě zmíněné ochrany proti
+dekompilaci také rychlejší start aplikace, rychlost aplikace za běhu se ale při
+použití moderních virtuálních strojů Javy příliš neliší.
+
+\section{Závěr}
 
 
