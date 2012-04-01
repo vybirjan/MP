@@ -15,7 +15,25 @@
 % \usepackage{amssymb} %additional math symbols
 
 % list of acronyms
+\usepackage{color}
+\definecolor{sh_comment}{rgb}{0.12, 0.38, 0.18 } %adjusted, in Eclipse: {0.25, 0.42, 0.30 } = #3F6A4D
+\definecolor{sh_keyword}{rgb}{0.37, 0.08, 0.25}  % #5F1441
+\definecolor{sh_string}{rgb}{0.06, 0.10, 0.98} % #101AF9
+\def\lstsmallmath{\leavevmode\ifmmode \scriptstyle \else  \fi}
+\def\lstsmallmathend{\leavevmode\ifmmode  \else  \fi}
 \usepackage{listings}
+\lstset {
+ language = Java,
+ breaklines=true, 
+ rulesepcolor=\color{black},
+ showspaces=false,showtabs=false,tabsize=2,
+ stringstyle=\color{sh_string},
+ keywordstyle = \color{sh_keyword}\bfseries,
+ commentstyle=\color{sh_comment}\itshape,
+ captionpos=b,
+ lineskip=-0.3em,
+ escapebegin={\lstsmallmath}, escapeend={\lstsmallmathend}
+}
 \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
 \iflanguage{czech}{\renewcommand*{\acronymname}{Seznam pou{\v z}it{\' y}ch zkratek}}{}
 \makeglossaries
@@ -37,7 +55,6 @@
 \placeForDeclarationOfAuthenticity{Praha} %where you have signed the declaration
 \keywordsCS{Java, Licencování, Eclipse, OSGi}
 \keywordsEN{TODO}
-
 
 \include{glossaries}
 

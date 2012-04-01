@@ -34,10 +34,108 @@ nebo volání metod. Díky tomu je možné dekompilací z .class souborů poměr
 snadno získat zpět zdrojový kód, který je navíc velmi podobný původnímu
 zdrojovému kódu, jehož kompilací byl .class soubor vytvořen.
 
-Ukázka dekompilace kódu je TODO
+Ukázku toho, jak může vypadat dekompilovaný kód, je možné vidět na ukázce
+\ref{lst:decompiled-src}. Původní zdrojový kód třídy Decompilation je na ukázce
+\ref{lst:original-src}.
 
+\cleardoublepage
+\lstset{caption={Originální zdrojový kód třídy},label=lst:original-src}
 
+\begin{lstlisting}
+public class Decompilation {
 
+	public enum TestEnum {
+		A, B, C
+	}
+
+	private static int integerVariable = 0;
+	static {
+		integerVariable = 5 * (22 + 16);
+	}
+
+	private boolean flag = false;
+
+	public TestEnum getValue() {
+		return TestEnum.values()[(int) (System.currentTimeMillis() % 3)];
+	}
+
+	public String testMethod() {
+		String localunusedVar = "test" + " integerVariable= " + integerVariable + ".";
+		float variable = Float.MAX_VALUE;
+		while (flag) {
+			variable -= Float.MAX_VALUE / 10;
+			flag = variable > 0;
+		}
+		switch (getValue()) {
+			case A:
+				System.out.print("A");
+				break;
+		}
+		for (int var = 0;; var++) {
+			if (var > 100) {
+				break;
+			}
+			System.out.println(var);
+		}
+		return testObj.toString();
+	}
+
+	private final Object testObj = new Object() {
+		@Override
+		public String toString() {
+			return String.valueOf(integerVariable);
+		};
+	};
+}
+}
+\end{lstlisting}
+\newpage
+
+\lstset{caption={Dekompilovaný zdrojový kód třídy},label=lst:decompiled-src}
+
+\begin{lstlisting}
+public class Decompilation {
+	private static int integerVariable = 0;
+	private boolean flag = false;
+	private final Object testObj = new Object() {
+		public String toString() {
+			return String.valueOf(Decompilation.integerVariable);
+		}
+	};
+	static {
+		integerVariable = 190;
+	}
+	public TestEnum getValue() {
+		return TestEnum.values()[(int) (System.currentTimeMillis() % 3L)];
+	}
+	public String testMethod() {
+		new StringBuilder("test integerVariable= ").append(integerVariable).append(".").toString();
+		float f = 3.4028235E+38F;
+		while (this.flag) {
+			f -= 3.402824E+037F;
+			this.flag = (f > 0.0F);
+		}
+		switch ($SWITCH_TABLE$test$Decompilation$TestEnum()[getValue().ordinal()]) {
+			case 1:
+				System.out.print("A");
+				break;
+		}
+		for (int i = 0; i <= 100; i++)
+			System.out.println(i);
+		return this.testObj.toString();
+	}
+
+	public static void main(String[] paramArrayOfString) {
+		Decompilation localDecompilation = new Decompilation();
+		localDecompilation.testMethod();
+	}
+	public static enum TestEnum {
+		A, B, C;
+	}
+}
+\end{lstlisting}
+
+\newpage
 
 Díky možnosti dekompilace a úpravy již zkompilovaných souborů může útočník
 snadno z aplikace odstranit volání licenční knihovny a tím docílit neomezeného
@@ -219,6 +317,33 @@ zkompilovat aplikaci samostatně. Výhodou může být kromě zmíněné ochrany
 dekompilaci také rychlejší start aplikace, rychlost aplikace za běhu se ale při
 použití moderních virtuálních strojů Javy příliš neliší.
 
+
+\subsection{Hardwarová ochrana}
+
+Kromě softwarových řešení existují i čistě hardwarová řešení pro ochranu
+Javovských aplikací. Příkladem může být produkt Validy
+SoftNaos\cite{validy-softnaos} v podobě přídavného USB zařízení. Ochrana
+poskytovaná tímto zařízením spočívá v tom, že se část kódu apliakce po přeložení
+zašifruje. Takto zašifrovaný kód je poté možné spustit pouze pomocí připojeného
+USB zařízení. Takto chráněný kód není možné dekompilovat a upravit a to ani za
+běhu aplikace, díky čemuž může být tento způsob ochrany jako jediný ze zmíněných
+považován za bezpečný.
+
+Nevýhodou při použití hardwarové ochrany je především nutnost společně s
+aplikací distribuovat i hardwarová zařízení pro spouštění šifrovaného kódu,
+jejichž cena může často i přesáhnout cenu samotné aplikace. Problematický může
+být také výkon takto chráněného kódu, vykonávání šifrovaného kódu může být i
+$40000\times$ pomalejší než u nešifrovaného kódu\cite{validy-softnaos-review}.
+
 \section{Závěr}
 
+Zabezpečení aplikací napsaných v jazyce Java je díky snadné dekompilaci bytecode
+problematické. Kromě použití speciálního hardwarového zařízení pro dešifrování
+bytecode neexistuje spolehlivá metoda, pomocí níž by šlo zabránit dekompilaci a
+modifikaci kódu aplikace. %TODO
 
+Pro implementaci v rámci této práce byla zvolena metoda šifrování kompilovaných
+tříd s distribucí šifrovacího klíče pomocí licenčního mechanismu. Pro zvýšení
+úrovně bezpečnosti je vhodné tuto metodu kombinovat například s obfuskováním
+kódu aplikace nebo s kompilováním části starající se o dešifrování tříd do
+nativního kódu.
